@@ -1,0 +1,22 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+		http://code.alibabatech.com/schema/dubbo        
+		http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+
+	<!-- dubbo服务提供方 -->
+	<!-- 配置dubbo服务名：用于monitor监控 -->
+	<dubbo:application name="hello-provider"/>
+
+	<!--dubbo直连-->
+    <dubbo:registry address="zookeeper://192.168.200.141:2182?backup=192.168.200.141:2183,192.168.200.141:2184" />
+
+	<!-- 配置dubbo协议 -->
+    <dubbo:protocol name="dubbo" port="20880"/>
+
+	<!-- 将接口暴露到注册中心  ref引用具体的实现类-->
+    <bean id="helloService" class="com.kenick.serviceImpl.HelloServiceImpl" />
+	<dubbo:service interface="com.kenick.service.HelloService" ref="helloService" />
+</beans>
